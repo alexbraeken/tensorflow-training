@@ -1,4 +1,4 @@
-name: Train TensorFlow Model
+name: Train & Test TensorFlow Model
 
 on:
   workflow_dispatch:

@@ -1,5 +1,6 @@
 const { App } = require('@slack/bolt');
-const { handleMessage } = require('./listeners/messages');
+const handleMessage = require('./listeners/messages');
+const { getSecret } = require('../services/secret-manager');
 require('dotenv').config();
 
 // Initializes your app with your bot token and signing secret
@@ -11,5 +12,11 @@ const app = new App({
   port: process.env.PORT || 3000
 });
 
+// Listeners
 app.message(handleMessage);
-app.start();
+
+// Start
+(async () => {
+  await app.start();
+  console.log('⚡ Slackbot running in Socket Mode');
+})();

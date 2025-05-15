@@ -1,4 +1,4 @@
-const tf = require('@tensorflow/tfjs');
+const tf = require('@tensorflow/tfjs-node');
 const use = require('@tensorflow-models/universal-sentence-encoder');
 const fs = require('fs');
 
@@ -148,7 +148,13 @@ async function run() {
     }
   });
 
-  await model.save('file://./models/intent-model');
+  const path = './models/intent-model';
+  if (!fs.existsSync(path)) {
+    fs.mkdirSync(path, { recursive: true });
+  }
+
+  await model.save(`file://${path}`);
+
   fs.writeFileSync('./models/label-map.json', JSON.stringify(labelToIndex, null, 2));
 
   console.log('Model and label map saved.');

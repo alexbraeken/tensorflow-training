@@ -1,4 +1,4 @@
-name: Train & Test TensorFlow Model
+name: Train TensorFlow Model
 
 on:
   workflow_dispatch:
@@ -12,22 +12,22 @@ jobs:
         node-version: [20.x]
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
 
     - name: Install dependencies
-      run: |
-        npm install --legacy-peer-deps
+      run: npm install --legacy-peer-deps
 
-    - name: Run training
+    - name: Run training script
       run: node models/train-model.js
 
-    - name: Upload trained model
-      uses: actions/upload-artifact@v3
+    - name: Upload trained model as artifact
+      uses: actions/upload-artifact@v3.1.3
       with:
         name: trained-intent-model
-        path: models/intent-model
+        path: models/intent-model/
